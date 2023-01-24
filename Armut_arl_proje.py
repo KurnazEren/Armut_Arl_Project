@@ -1,7 +1,4 @@
 
-
-
-
 import pandas as pd
 pd.set_option('display.max_columns', None)
 from mlxtend.frequent_patterns import apriori, association_rules
@@ -13,7 +10,6 @@ df.head()
 df["Hizmet"] = [str(row[1]) + "_" + str(row[2]) for row in df.values]
 df.head()
 
-
 df["CreateDate"] = pd.to_datetime(df["CreateDate"])
 df.head()
 df["NEW_DATE"] = df["CreateDate"].dt.strftime("%Y-%m")
@@ -23,12 +19,9 @@ df.head()
 
 df[df["UserId"] == 7256]
 
-
 #########################
 # Produce Association Rules
 ##########################
-
-
 
 # Hizmet         0_8  10_9  11_11  12_7  13_11  14_7  15_1  16_8  17_5  18_4..
 # SepetID
@@ -41,12 +34,10 @@ df[df["UserId"] == 7256]
 invoice_product_df = df.groupby(['SepetID', 'Hizmet'])['Hizmet'].count().unstack().fillna(0).applymap(lambda x: 1 if x > 0 else 0)
 invoice_product_df.head()
 
-
 # Create association rules.
 frequent_itemsets = apriori(invoice_product_df, min_support=0.01, use_colnames=True)
 rules = association_rules(frequent_itemsets, metric="support", min_threshold=0.01)
 rules.head()
-
 
 # Using the arl recommender function, recommend a service to a user who received the last 2_0 service.
 
